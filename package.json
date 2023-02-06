@@ -1,5 +1,5 @@
 {
-  "name": "json-schema-decorator",
+  "name": "@apiel/json-schema-decorator",
   "version": "0.0.1",
   "description": "JSON schema decorator",
   "repository": {
