@@ -63,7 +63,7 @@ export class Schema {
         if (Array.isArray(targetObj)) {
             name = targetObj[1];
             if (!name) {
-                throw new Error('Missing name of Meta decorator');
+                throw new Error('Missing name of target decorator');
             }
             targetObj = targetObj[0];
         }

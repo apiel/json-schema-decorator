@@ -19,7 +19,7 @@ const p = new Person();
 console.log('This is the generated JSON schema', p.jsonSchema);
 
 if (p.validate().errors) {
-    console.log('With missing example value', p.validate().errors);
+    console.error('Data does not match JSON schema definition.', p.validate().errors);
 }
 ```
 
