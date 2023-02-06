@@ -1,10 +1,10 @@
-# json-schema-decorator
+# @apiel/json-schema-decorator
 
 An opiniated library using decorators in order to define JSON schema on a class.
 It is using [AJV](https://www.npmjs.com/package/ajv) for the types definition and the validation.
 
 ```ts
-import { schema, Schema } from 'json-schema-decorator';
+import { schema, Schema } from '@apiel/json-schema-decorator';
 
 class Person extends Schema {
     @schema({ maximum: 40 })

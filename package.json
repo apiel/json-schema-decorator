@@ -1,6 +1,6 @@
 {
   "name": "@apiel/json-schema-decorator",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JSON schema decorator",
   "repository": {
     "type": "git",
