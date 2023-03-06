@@ -39,5 +39,5 @@ class Person2 extends Schema {
 
 const p2 = new Person2();
 if (p2.validate().errors) {  
-    console.log('Another example using schema from another class', p2.validate().errors);
+    console.log('Another error example using schema from another class', p2.validate().errors);
 }

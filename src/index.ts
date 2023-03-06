@@ -43,7 +43,7 @@ export class Schema {
         required: [],
     };
 
-    protected _getSchema(name: string, target: Object = this) {
+    protected _getSchema(name: string, target: Object) {
         const schemaMeta = Reflect.getMetadata(schemaMetadataKey, target, name);
         if (!schemaMeta) {
             throw new Error(`No schema defined for ${name}, use @schema({})`);
@@ -70,9 +70,13 @@ export class Schema {
         return this._getSchema(name, new ((targetObj as any)() as any)() || {});
     }
 
-    constructor() {
-        for (const name of getPropsMetadata(this)) {
-            let { target, optional, ...schemaMeta } = this._getSchema(name);
+    constructor(obj?: Object) {
+        if (!obj) {
+            obj = this;
+        }
+
+        for (const name of getPropsMetadata(obj)) {
+            let { target, optional, ...schemaMeta } = this._getSchema(name, obj!);
             if (target) {
                 schemaMeta = { ...this._getTargetSchema(target, name), ...schemaMeta };
             }

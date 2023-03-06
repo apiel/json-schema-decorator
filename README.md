@@ -45,6 +45,26 @@ class Person2 extends Schema {
 }
 ```
 
+The class `Person` doesn't necessarely need to extend `Schema`:
+
+```ts
+class Person {
+    @schema({ maximum: 40 })
+    age: number = 20;
+
+    @schema({ maximum: 200 })
+    height: number = 223;
+
+    @schema({ minimum: 10, optional: false })
+    example!: number;
+}
+
+const p = new Person();
+const shemaGenerator = new Schema(p);
+
+console.log('This is the generated JSON schema', shemaGenerator.jsonSchema);
+```
+
 ## tsconfig
 
 `experimentalDecorators` and `emitDecoratorMetadata` must be enable in your tsconfig.json.

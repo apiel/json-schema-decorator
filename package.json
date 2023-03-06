@@ -1,6 +1,6 @@
 {
   "name": "@apiel/json-schema-decorator",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "JSON schema decorator",
   "repository": {
     "type": "git",
@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev --respawn src/example/demo.ts",
+    "dev2": "ts-node-dev --respawn src/example/demo2.ts",
     "start": "tsc && node dist/example/demo.js"
   },
   "author": "Alexandre Piel",
