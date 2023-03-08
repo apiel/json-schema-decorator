@@ -1,68 +1,74 @@
 # @apiel/json-schema-decorator
 
-An opiniated library using decorators in order to define JSON schema on a class.
-It is using [AJV](https://www.npmjs.com/package/ajv) for the types definition and the validation.
+Minimal library to merge JSON schema properties decorator into a JSON schema object.
 
 ```ts
-import { schema, Schema } from '@apiel/json-schema-decorator';
+import { generateJsonSchema, schema } from '@apiel/json-schema-decorator';
 
-class Person extends Schema {
-    @schema({ maximum: 40 })
-    age: number = 20;
+class Person {
+  @schema({ maximum: 40 })
+  age: number = 20;
 
-    @schema({ maximum: 200 })
-    height: number = 223;
+  @schema({ maximum: 200 })
+  height: number = 120;
 }
 
 const p = new Person();
-
-console.log('This is the generated JSON schema', p.jsonSchema);
-
-if (p.validate().errors) {
-    console.error('Data does not match JSON schema definition.', p.validate().errors);
-}
+console.log('This is the generated JSON schema', generateJsonSchema(p));
 ```
 
-Create a class, extending the class Schema in order to generate the JSON schema.
-The schema will be available from the property `yourObject.schema`.
+JSON schema output:
+
+```json
+{
+  type: 'object',
+  required: [ 'age', 'height', 'example' ],
+  properties: {
+    age: { maximum: 40, type: 'number' },
+    height: { maximum: 200, type: 'number' },
+    example: { minimum: 10, type: 'number' }
+  }
+}
+```
 
 To define a property schema, use the decorator `@schema({})`. The type of the property is inferred automatically and can still be overwritten if `type` is defined as parameter, e.g.: `@schema({type: 'number'})`. By default, properties are optional, to make them required, set the parameter `optional` to `false`, e.g.: `@schema({optional: false})`.
 
-Sometime, it can be useful to re-use schema from another class (without extending it). To solve this, use the parameter target:
+Generate the json schema by calling `generateJsonSchema(the_target_object)`
 
-```ts
-class Address extends Schema {
-    @schema({ type: 'string', minLength: 3, maxLength: 10, description: 'Street name' })
-    street!: string;
-}
+## Validation
 
-class Person2 extends Schema {
-    @schema({ maximum: 40 })
-    age: number = 20;
+**Validation is not include in this library**, as the goal is simply to generate JSON schema. It's up to you to use the library of your choice for validation.
 
-    @schema({ target: () => Address })
-    street: string = 'streetgasse';
-}
+In our example, we will use AJV:
+
+```sh
+npm install ajv
 ```
 
-The class `Person` doesn't necessarely need to extend `Schema`:
-
 ```ts
+import { generateJsonSchema, schema } from '@apiel/json-schema-decorator';
+import Ajv from 'ajv';
+
 class Person {
-    @schema({ maximum: 40 })
-    age: number = 20;
+  @schema({ maximum: 40 })
+  age: number = 20;
 
-    @schema({ maximum: 200 })
-    height: number = 223;
-
-    @schema({ minimum: 10, optional: false })
-    example!: number;
+  @schema({ maximum: 200 })
+  height: number = 223;
 }
 
 const p = new Person();
-const shemaGenerator = new Schema(p);
+const jsonSchema = generateJsonSchema(p);
 
-console.log('This is the generated JSON schema', shemaGenerator.jsonSchema);
+const ajv = new Ajv();
+const validator = ajv.compile(jsonSchema);
+const validation = validator(p);
+
+// It should fail because height is over maximum limit
+console.log('AJV validation result:', validation);
+if (!validation) {
+  console.error('Your object does not respect your JSON schema definition', validator.errors);
+}
 ```
 
 ## tsconfig
@@ -71,11 +77,11 @@ console.log('This is the generated JSON schema', shemaGenerator.jsonSchema);
 
 ```json
 {
+  // ...
+  "compilerOptions": {
     // ...
-    "compilerOptions": {
-        // ...
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-    }
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
 }
 ```

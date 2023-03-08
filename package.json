@@ -1,6 +1,6 @@
 {
   "name": "@apiel/json-schema-decorator",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "JSON schema decorator",
   "repository": {
     "type": "git",
@@ -8,18 +8,19 @@
   },
   "main": "dist/index.js",
   "scripts": {
+    "build": "rimraf dist && tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn src/example/demo.ts",
-    "dev2": "ts-node-dev --respawn src/example/demo2.ts",
-    "start": "tsc && node dist/example/demo.js"
+    "dev": "ts-node-dev --respawn example/demo.ts",
+    "start": "ts-node example/demo.ts"
   },
   "author": "Alexandre Piel",
   "license": "ISC",
   "dependencies": {
-    "ajv": "^8.12.0",
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "ajv": "^8.12.0",
+    "rimraf": "^4.3.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.9.5"
   }

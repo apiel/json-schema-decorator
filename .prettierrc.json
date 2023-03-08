@@ -1,7 +1,9 @@
 {
-    "printWidth": 120,
-    "tabWidth": 4,
+    "tabWidth": 2,
     "singleQuote": true,
     "trailingComma": "all",
-    "arrowParens": "always"
+    "useTabs": false,
+    "importOrder": ["^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
 }
