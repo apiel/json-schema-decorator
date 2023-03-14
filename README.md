@@ -6,11 +6,11 @@ Minimal library to merge JSON schema properties decorator into a JSON schema obj
 import { generateJsonSchema, schema } from '@apiel/json-schema-decorator';
 
 class Person {
-  @schema({ maximum: 40 })
+  @schema({ maximum: 40, optional: true })
   age: number = 20;
 
   @schema({ maximum: 200 })
-  height: number = 120;
+  height!: number;
 }
 
 const p = new Person();
@@ -22,11 +22,10 @@ JSON schema output:
 ```json
 {
   type: 'object',
-  required: [ 'age', 'height', 'example' ],
+  required: [ 'height' ],
   properties: {
     age: { maximum: 40, type: 'number' },
-    height: { maximum: 200, type: 'number' },
-    example: { minimum: 10, type: 'number' }
+    height: { maximum: 200, type: 'number' }
   }
 }
 ```
